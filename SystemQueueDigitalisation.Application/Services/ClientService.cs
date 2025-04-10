@@ -19,9 +19,13 @@ namespace SystemQueueDigitalisation.Application.Services
             _clientRepository = clientRepository;
         }
 
-        public async Task<int> RegisterClientAsync(string firstName, string lastName, string contactInfo,string adress,string city, 
-            string postCode,
-            string adressNumber, int boxNumber, DateTime birthDate,string email, string password,int age)
+        public async Task<Client> GetClientByEmailAsync(string email)
+        {
+            return await _clientRepository.GetByEmailAsync(email);
+        }
+
+        public async Task<int> RegisterClientAsync(string firstName, string lastName, string contactInfo, string adress, string city,
+            string postCode, string adressNumber, int boxNumber, DateTime birthDate, string email, string password, int age)
         {
             var existingClient = await _clientRepository.GetByContactInfoAsync(contactInfo);
             if (existingClient != null)

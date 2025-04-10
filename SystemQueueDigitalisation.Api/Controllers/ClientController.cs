@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SystemQueueDigitalisation.Api.RequestModel;
 using SystemQueueDigitalisation.Application.Interfaces.Services;
+using SystemQueueDigitalisation.Domain.Entities;
 
 namespace SystemQueueDigitalisation.Api.Controllers
 {
@@ -34,6 +35,12 @@ namespace SystemQueueDigitalisation.Api.Controllers
                     request.Age
                 );
             return Ok(new { ClientId = clientId });
+        }
+
+        [HttpGet]
+        public async Task<Client> GetClientByEmailAsync(string email)
+        {
+            return await _clientService.GetClientByEmailAsync(email);
         }
     }
 }

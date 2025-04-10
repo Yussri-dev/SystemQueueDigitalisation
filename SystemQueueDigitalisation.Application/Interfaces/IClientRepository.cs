@@ -10,5 +10,6 @@ namespace SystemQueueDigitalisation.Application.Interfaces
     public interface IClientRepository : IRepository<Client>
     {
         Task<Client> GetByContactInfoAsync(string contactInfo);
+        Task<Client> GetByEmailAsync(string email);
     }
 }
