@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35806.99 d17.13
+VisualStudioVersion = 17.13.35806.99
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemQueueDigitalisation.Domain", "SystemQueueDigitalisation.Domain\SystemQueueDigitalisation.Domain.csproj", "{B0D40DFB-8CB2-4D10-AFBD-A3B4E7806EEB}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemQueueDigitalisation.Infrastructure", "SystemQueueDigitalisation.Infrastructure\SystemQueueDigitalisation.Infrastructure.csproj", "{FCE0A76B-F265-4A11-B8D4-3748E5A0028B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemQueueDigitalisation.Api", "SystemQueueDigitalisation.Api\SystemQueueDigitalisation.Api.csproj", "{254B616C-8F55-41D0-BF04-4FCB64AB1BD0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemQueueDigitalisation.Web", "SystemQueueDigitalisation.Web\SystemQueueDigitalisation.Web.csproj", "{BF9B4555-0EDD-4813-AC2D-6AC48815E500}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{254B616C-8F55-41D0-BF04-4FCB64AB1BD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{254B616C-8F55-41D0-BF04-4FCB64AB1BD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{254B616C-8F55-41D0-BF04-4FCB64AB1BD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF9B4555-0EDD-4813-AC2D-6AC48815E500}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF9B4555-0EDD-4813-AC2D-6AC48815E500}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF9B4555-0EDD-4813-AC2D-6AC48815E500}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF9B4555-0EDD-4813-AC2D-6AC48815E500}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -23,14 +23,16 @@ namespace SystemQueueDigitalisation.Api.Controllers
             return Ok(new { Message = "Provider registered successfully." });
         }
 
-        //[HttpPost("authenticate")]
-        //public async Task<IActionResult> Authenticate([FromBody] AuthenticateProviderRequest request)
-        //{
-        //    var isAuthenticated = await _providerService.AuthenticateProviderAsync(request.Email, request.Password);
-        //    if (!isAuthenticated)
-        //        return Unauthorized(new { Message = "Invalid credentials." });
 
-        //    return Ok(new { Message = "Authentication successful." });
-        //}
+        [HttpPost("authenticate")]
+        public async Task<IActionResult> Authenticate([FromBody] AuthenticateProviderRequest request)
+        {
+            var isAuthenticated = await _providerService.AuthenticateProviderAsync(request.Email, request.Password);
+
+            if (!isAuthenticated)
+                return Unauthorized(new { Message = "Invalid credentials." });
+
+            return Ok(new { Message = "Authentication successful." });
+        }
     }
 }

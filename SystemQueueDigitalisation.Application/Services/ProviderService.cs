@@ -27,7 +27,7 @@ public class ProviderService : IProviderService
         {
             Name = name,
             Email = email,
-            PasswordHash = PasswordHelper.HashPassword(password),
+            PasswordHash = PasswordHelper.HashPassword(password.Trim()),
             Type = type
         };
 
@@ -37,8 +37,11 @@ public class ProviderService : IProviderService
     public async Task<bool> AuthenticateProviderAsync(string email, string password)
     {
         var provider = await _providerRepository.GetByEmailAsync(email);
-        if (provider == null) return false;
+        if (provider == null)
+            return false;
 
-        return PasswordHelper.VerifyPassword(password, provider.PasswordHash);
+        var trimmedPassword = password.Trim();
+
+        return PasswordHelper.VerifyPassword(trimmedPassword, provider.PasswordHash);
     }
 }
