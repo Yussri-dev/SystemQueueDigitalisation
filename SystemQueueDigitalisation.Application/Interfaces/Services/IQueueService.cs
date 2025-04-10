@@ -10,5 +10,6 @@ namespace SystemQueueDigitalisation.Application.Interfaces.Services
     {
         Task<string> GenerateQueueNumberAsync(int clientId, int serviceId);
         Task CallNextClientAsync(int serviceId);
+
     }
 }

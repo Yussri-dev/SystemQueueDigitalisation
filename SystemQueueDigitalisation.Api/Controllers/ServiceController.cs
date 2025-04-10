@@ -7,7 +7,7 @@ namespace SystemQueueDigitalisation.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ServiceController : ControllerBase
+    public partial class ServiceController : ControllerBase
     {
         private readonly IServicesService _serviceservice;
 
@@ -21,13 +21,6 @@ namespace SystemQueueDigitalisation.Api.Controllers
         {
             var serviceId = await _serviceservice.RegisterServiceAsync(request.Name, request.Description, request.ProviderId);
             return Ok(new { ServiceId = serviceId });
-        }
-
-        public class RegisterServiceRequest
-        {
-            public string Name { get; set; }
-            public string Description { get; set; }
-            public int ProviderId { get; set; }
         }
     }
 }

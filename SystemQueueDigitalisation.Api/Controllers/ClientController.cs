@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SystemQueueDigitalisation.Api.RequestModel;
 using SystemQueueDigitalisation.Application.Interfaces.Services;
 
 namespace SystemQueueDigitalisation.Api.Controllers
@@ -34,23 +35,5 @@ namespace SystemQueueDigitalisation.Api.Controllers
                 );
             return Ok(new { ClientId = clientId });
         }
-    }
-
-    public class RegisterClientRequest
-    {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string ContactInfo { get; set; }
-        public string Adress { get; set; }
-        public string City { get; set; }
-        public string PostCode { get; set; }
-        public string AdressNumber { get; set; }
-        public int BoxNumber { get; set; }
-        public DateTime BirthDate { get; set; }
-        public string Email { get; set; }
-        public string PasswordHash { get; set; }
-        public int Age { get; set; }
-
-
     }
 }

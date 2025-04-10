@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SystemQueueDigitalisation.Api.RequestModel;
 using SystemQueueDigitalisation.Application.Interfaces.Services;
 
 namespace SystemQueueDigitalisation.Api.Controllers
@@ -31,13 +32,5 @@ namespace SystemQueueDigitalisation.Api.Controllers
 
         //    return Ok(new { Message = "Authentication successful." });
         //}
-    }
-
-    public class RegisterProviderRequest
-    {
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string Type { get; set; }
     }
 }

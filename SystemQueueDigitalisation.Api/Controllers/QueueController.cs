@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SystemQueueDigitalisation.Api.RequestModel;
 using SystemQueueDigitalisation.Application.Interfaces.Services;
 
 namespace SystemQueueDigitalisation.Api.Controllers
@@ -28,16 +29,5 @@ namespace SystemQueueDigitalisation.Api.Controllers
             await _queueService.CallNextClientAsync(request.ServiceId);
             return Ok(new { Message = "Next client called." });
         }
-    }
-
-    public class GenerateQueueRequest
-    {
-        public int ClientId { get; set; }
-        public int ServiceId { get; set; }
-    }
-
-    public class CallNextClientRequest
-    {
-        public int ServiceId { get; set; }
     }
 }
