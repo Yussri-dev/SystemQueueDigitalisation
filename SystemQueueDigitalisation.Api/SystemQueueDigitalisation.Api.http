@@ -1,0 +1,6 @@
+@SystemQueueDigitalisation.Api_HostAddress = http://localhost:5107
+
+GET {{SystemQueueDigitalisation.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
