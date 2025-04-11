@@ -1,4 +1,12 @@
+using SystemQueueDigitalisation.Web.Services;
+
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Services.AddHttpClient<ProviderService>(client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5107/");
+});
 
 // Add services to the container.
 builder.Services.AddRazorPages();
