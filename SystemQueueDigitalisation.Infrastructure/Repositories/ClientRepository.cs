@@ -28,5 +28,10 @@ namespace SystemQueueDigitalisation.Infrastructure.Repositories
         {
             return await _context.Clients.FirstOrDefaultAsync(e => e.Email == email);
         }
+
+        public async Task<int?> GetIdByEmailAsync(string email)
+        {
+            return await _context.Clients.Where(p => p.Email == email).Select(p => (int?)p.Id).FirstOrDefaultAsync();
+        }
     }
 }

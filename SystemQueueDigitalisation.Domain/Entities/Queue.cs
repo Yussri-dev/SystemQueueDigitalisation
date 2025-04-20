@@ -3,10 +3,10 @@
     public class Queue
     {
         public int Id { get; set; }
-        public string QueueNumber { get; set; } // Unique identifier for the ticket (e.g., "Q123")
-        public DateTime CreatedAt { get; set; } // Timestamp when the ticket was created
-        public DateTime? CalledAt { get; set; } // Timestamp when the client was called
-        public bool IsServed { get; set; } // Indicates whether the client has been served
+        public string QueueNumber { get; set; }
+        public DateTime CreatedAt { get; set; } 
+        public DateTime? CalledAt { get; set; }
+        public bool IsServed { get; set; }
 
         // Foreign keys to associate the queue with a client and service
         public int ClientId { get; set; }

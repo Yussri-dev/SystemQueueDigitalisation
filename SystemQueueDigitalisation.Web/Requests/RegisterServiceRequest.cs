@@ -1,4 +1,4 @@
-﻿namespace SystemQueueDigitalisation.Api.RequestModel
+﻿namespace SystemQueueDigitalisation.Web.Requests
 {
     public class RegisterServiceRequest
     {
@@ -6,5 +6,4 @@
         public string Description { get; set; }
         public int ProviderId { get; set; }
     }
-
 }

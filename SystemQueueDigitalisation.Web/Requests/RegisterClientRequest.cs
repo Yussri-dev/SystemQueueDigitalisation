@@ -1,4 +1,4 @@
-﻿namespace SystemQueueDigitalisation.Api.RequestModel
+﻿namespace SystemQueueDigitalisation.Web.Requests
 {
     public class RegisterClientRequest
     {

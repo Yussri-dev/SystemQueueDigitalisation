@@ -42,5 +42,21 @@ namespace SystemQueueDigitalisation.Api.Controllers
         {
             return await _clientService.GetClientByEmailAsync(email);
         }
+
+        
+
+        [HttpPost("authenticate")]
+        public async Task<IActionResult> Authenticate([FromBody] AuthenticateClientRequest request)
+        {
+            var clientId = await _clientService.AuthenticateClientAsync(request.Email, request.Password);
+
+            if (clientId == null)
+                return Unauthorized(new { Message = "Invalid credentials." });
+
+            return Ok(new { Message = "Authentication successful.", ClientId = clientId });
+        }
+
+
+
     }
 }

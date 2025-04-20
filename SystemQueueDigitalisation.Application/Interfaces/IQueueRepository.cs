@@ -11,5 +11,8 @@ namespace SystemQueueDigitalisation.Application.Interfaces
     {
         Task<Queue> GetNextInQueueAsync(int serviceId);
         Task<IEnumerable<Queue>> GetQueuesByProviderIdAsync(int providerId);
+        Task<Service> GetServiceWithProviderAsync(int serviceId);
+        Task<Client> GetClientByIdAsync(int clientId);
+
     }
 }

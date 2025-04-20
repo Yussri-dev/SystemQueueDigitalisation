@@ -12,6 +12,8 @@ namespace SystemQueueDigitalisation.Application.Interfaces.Services
         Task<int> RegisterClientAsync(string firstName, string lastName, string contactInfo, string adress, string city, string postCode,
             string adressNumber, int BoxNumber, DateTime BirthDate, string Email, string password, int age);
         Task<Client> GetClientByEmailAsync(string email);
+        //Task<bool> AuthenticateClientAsync(int id,string email, string password);
 
+        Task<int?> AuthenticateClientAsync(string email, string password);
     }
 }

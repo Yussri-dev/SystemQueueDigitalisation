@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SystemQueueDigitalisation.Api.RequestModel;
 using SystemQueueDigitalisation.Application.Interfaces.Services;
+using SystemQueueDigitalisation.Domain.Entities;
 
 namespace SystemQueueDigitalisation.Api.Controllers
 {
@@ -23,16 +24,38 @@ namespace SystemQueueDigitalisation.Api.Controllers
             return Ok(new { Message = "Provider registered successfully." });
         }
 
-
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] AuthenticateProviderRequest request)
         {
-            var isAuthenticated = await _providerService.AuthenticateProviderAsync(request.Email, request.Password);
+            var provider = await _providerService.AuthenticateProviderAsync(request.Email, request.Password);
 
-            if (!isAuthenticated)
+            if (provider == null)
                 return Unauthorized(new { Message = "Invalid credentials." });
 
-            return Ok(new { Message = "Authentication successful." });
+            return Ok(new { Message = "Authentication successful.", ProviderId = provider.Id });
         }
+
+        [HttpGet("{providerId}/queues/today")]
+        public async Task<ActionResult<List<QueueInfoRequest>>> GetTodayQueues(int providerId)
+        {
+            var queues = await _providerService.GetTodayQueueAsync(providerId);
+            Console.WriteLine($"API returning {queues.Count} queues for provider {providerId}");
+            return Ok(queues);
+        }
+
+        [HttpPut("queue/{queueId}/serve")]
+        public async Task<IActionResult> MarkQueueAsServed(int queueId)
+        {
+            await _providerService.MarkAsServedAsync(queueId);
+            return Ok(new { Message = "Queue marked as served." });
+        }
+
+        [HttpGet("{providerId}/queues")]
+        public async Task<ActionResult<List<QueueInfoRequest>>> GetQueuesByDate(int providerId, DateTime date)
+        {
+            var queues = await _providerService.GetQueuesByDateAsync(providerId, date);
+            return Ok(queues);
+        }
+
     }
 }

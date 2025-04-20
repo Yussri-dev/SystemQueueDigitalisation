@@ -1,0 +1,36 @@
+﻿@page
+@model SystemQueueDigitalisation.Web.Pages.Queue.QueueGeneratorModel
+@{
+    ViewData["Title"] = "Queue Ticket";
+}
+
+<h2>Queue Ticket</h2>
+
+<form method="post" asp-page-handler="GenerateQueue">
+    <input type="hidden" asp-for="GenerateQueueRequest.ClientId" />
+    <div>
+        <label>Service ID:</label>
+        <input type="number" asp-for="GenerateQueueRequest.ServiceId" required />
+    </div>
+    <button type="submit">Generate Queue</button>
+</form>
+
+@if (Model.QueueInfo != null)
+{
+    <div class="card" style="border:1px solid #ccc; padding:20px; margin-top:20px; width:350px;">
+        <h3>Queue Details</h3>
+        <p><strong>Queue Number:</strong> @Model.QueueInfo.QueueNumber</p>
+        <p><strong>Client Email:</strong> @Model.QueueInfo.ClientEmail</p>
+        <p><strong>Service:</strong> @Model.QueueInfo.ServiceName</p>
+        <p><strong>Provider:</strong> @Model.QueueInfo.ProviderName (@Model.QueueInfo.ProviderType)</p>
+
+        @if (!string.IsNullOrEmpty(Model.QrCodeBase64))
+        {
+            <img src="data:image/png;base64,@Model.QrCodeBase64" alt="QR Code" style="margin-top:10px;" />
+        }
+
+        <div style="margin-top: 20px;">
+            <button onclick="window.print()">🖨️ Print</button>
+        </div>
+    </div>
+}

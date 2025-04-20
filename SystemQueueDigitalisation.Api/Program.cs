@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SystemQueueDigitalisation.Api.Hubs;
 using SystemQueueDigitalisation.Application.Interfaces;
 using SystemQueueDigitalisation.Application.Interfaces.Services;
 using SystemQueueDigitalisation.Application.Services;
@@ -36,8 +37,12 @@ builder.Services.AddScoped<IQueueService, QueueService>();
 builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IServicesService, ServiceService>();
 
+//SignalR
+//builder.Services.AddSignalR();
 
 var app = builder.Build();
+
+//app.MapHub<QueueHub>("/queueHub");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

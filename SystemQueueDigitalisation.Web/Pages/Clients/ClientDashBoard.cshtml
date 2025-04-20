@@ -1,0 +1,11 @@
+﻿@page
+@model SystemQueueDigitalisation.Web.Pages.Clients.ClientDashBoardModel
+@{
+    ViewData["Title"] = "Dashboard Client";
+}
+
+<h2>Welcome, @Model.ClientEmail!</h2>
+
+<p>Your Client ID: @Model.ClientId</p>
+
+<a asp-page="/Index" class="btn btn-secondary">Logout</a>

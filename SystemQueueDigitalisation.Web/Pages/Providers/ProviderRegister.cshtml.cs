@@ -3,32 +3,30 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using SystemQueueDigitalisation.Web.Requests;
 using SystemQueueDigitalisation.Web.Services;
 
-namespace SystemQueueDigitalisation.Web.Pages
+namespace SystemQueueDigitalisation.Web.Pages.Providers
 {
-    public class LoginModel : PageModel
+    public class ProviderRegisterModel : PageModel
     {
         private readonly ProviderService _providerService;
 
-        public LoginModel(ProviderService providerService)
+        public ProviderRegisterModel(ProviderService providerService)
         {
             _providerService = providerService;
         }
 
         [BindProperty]
-        public AuthenticateProviderRequest LoginRequest { get; set; }
+        public RegisterProviderRequest RegisterRequest { get; set; }
 
         public string Message { get; set; }
 
-        public void OnGet()
-        {
-        }
+        public void OnGet() { }
 
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
                 return Page();
 
-            Message = await _providerService.AuthenticateProviderAsync(LoginRequest);
+            Message = await _providerService.RegisterProviderAsync(RegisterRequest);
             return Page();
         }
     }

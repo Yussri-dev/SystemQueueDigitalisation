@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SystemQueueDigitalisation.Api.RequestModel;
 using SystemQueueDigitalisation.Application.Interfaces.Services;
 using SystemQueueDigitalisation.Application.Services;
 

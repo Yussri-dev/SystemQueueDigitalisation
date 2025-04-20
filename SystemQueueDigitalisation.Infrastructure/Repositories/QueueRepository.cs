@@ -31,5 +31,18 @@ namespace SystemQueueDigitalisation.Infrastructure.Repositories
                 .Where(q => q.Service.ProviderId == providerId)
                 .ToListAsync();
         }
+
+        public async Task<Service> GetServiceWithProviderAsync(int serviceId)
+        {
+            return await _context.Services
+                .Include(s => s.Provider)
+                .FirstOrDefaultAsync(s => s.Id == serviceId);
+        }
+
+        public async Task<Client> GetClientByIdAsync(int clientId)
+        {
+            return await _context.Clients
+                .FirstOrDefaultAsync(c => c.Id == clientId);
+        }
     }
 }

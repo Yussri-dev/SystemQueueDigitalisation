@@ -1,0 +1,43 @@
+﻿@page
+@model SystemQueueDigitalisation.Web.Pages.Services.ServiceModel
+
+@{
+    ViewData["Title"] = "Register Services";
+}
+
+<h2>Register as Provider</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="RegisterServiceRequest.Name"></label>
+        <input asp-for="RegisterServiceRequest.Name" class="form-control" />
+        <span asp-validation-for="RegisterServiceRequest.Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="RegisterServiceRequest.Description"></label>
+        <input asp-for="RegisterServiceRequest.Description" class="form-control" />
+        <span asp-validation-for="RegisterServiceRequest.Description" class="text-danger"></span>
+    </div>
+
+    @* <input type="hidden" asp-for="RegisterServiceRequest.ProviderId" /> *@
+    <input type="text" asp-for="RegisterServiceRequest.ProviderId" />
+
+    @* <div class="form-group">
+        <label asp-for="RegisterServiceRequest.ProviderId"></label>
+        <input asp-for="RegisterServiceRequest.ProviderId" type="number" class="form-control" />
+        <span asp-validation-for="RegisterServiceRequest.ProviderId" class="text-danger"></span>
+    </div> *@
+
+    <button type="submit" class="btn btn-success mt-2">Register</button>
+
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <div class="alert alert-info mt-3">@Model.Message</div>
+    }
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

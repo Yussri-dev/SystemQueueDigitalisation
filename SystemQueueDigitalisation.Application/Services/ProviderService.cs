@@ -11,10 +11,15 @@ using SystemQueueDigitalisation.Domain.Helpers;
 public class ProviderService : IProviderService
 {
     private readonly IProviderRepository _providerRepository;
+    //private readonly INotificationService _notificationService;
 
-    public ProviderService(IProviderRepository providerRepository)
+
+    public ProviderService(IProviderRepository providerRepository
+        /*, INotificationService notificationService*/
+        )
     {
         _providerRepository = providerRepository;
+        //_notificationService = notificationService;
     }
 
     public async Task RegisterProviderAsync(string name, string email, string password, string type)
@@ -34,14 +39,74 @@ public class ProviderService : IProviderService
         await _providerRepository.AddAsync(provider);
     }
 
-    public async Task<bool> AuthenticateProviderAsync(string email, string password)
+    
+    public async Task<Provider?> AuthenticateProviderAsync(string email, string password)
     {
         var provider = await _providerRepository.GetByEmailAsync(email);
-        if (provider == null)
-            return false;
+
+        if (provider == null || provider.Email != email)
+            return null;
 
         var trimmedPassword = password.Trim();
 
-        return PasswordHelper.VerifyPassword(trimmedPassword, provider.PasswordHash);
+        return PasswordHelper.VerifyPassword(trimmedPassword, provider.PasswordHash) ? provider : null;
     }
+
+    public async Task<List<QueueInfo>> GetTodayQueueAsync(int providerId)
+    {
+        var provider = await _providerRepository.GetWithServicesAsync(providerId);
+
+        if (provider == null)
+            throw new Exception("Provider not found.");
+
+        var serviceIds = provider.Services.Select(s => s.Id).ToList();
+
+        var today = DateTime.Today;
+
+        var queue = await _providerRepository.GetQueueByServicesAndDateAsync(serviceIds, today);
+
+        return queue.Select(q => new QueueInfo
+        {
+            QueueId = q.Id,
+            ClientEmail = q.Client.Email,
+            ServiceName = q.Service.Name,
+            QueueNumber = q.QueueNumber,
+            CreatedAt = q.CreatedAt,
+            IsServed = q.IsServed
+        }).ToList();
+    }
+
+    public async Task MarkAsServedAsync(int queueId)
+    {
+        var queue = await _providerRepository.GetQueueByIdAsync(queueId);
+
+        if (queue == null)
+            throw new Exception("Queue entry not found.");
+
+        queue.IsServed = true;
+        queue.CalledAt = DateTime.Now;
+
+        await _providerRepository.UpdateQueueAsync(queue);
+    }
+
+    public async Task<List<QueueInfo>> GetQueuesByDateAsync(int providerId, DateTime date)
+    {
+        var provider = await _providerRepository.GetWithServicesAsync(providerId);
+        if (provider == null)
+            throw new Exception("Provider not found.");
+
+        var serviceIds = provider.Services.Select(s => s.Id).ToList();
+        var queues = await _providerRepository.GetQueueByServicesAndDateAsync(serviceIds, date);
+
+        return queues.Select(q => new QueueInfo
+        {
+            QueueId = q.Id,
+            QueueNumber = q.QueueNumber,
+            ClientEmail = q.Client.Email,
+            ServiceName = q.Service.Name,
+            CreatedAt = q.CreatedAt,
+            IsServed = q.IsServed
+        }).ToList();
+    }
+
 }

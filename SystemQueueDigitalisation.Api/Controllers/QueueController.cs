@@ -19,9 +19,13 @@ namespace SystemQueueDigitalisation.Api.Controllers
         [HttpPost("generate")]
         public async Task<IActionResult> GenerateQueueNumber([FromBody] GenerateQueueRequest request)
         {
-            var queueNumber = await _queueService.GenerateQueueNumberAsync(request.ClientId, request.ServiceId);
-            return Ok(new { QueueNumber = queueNumber });
+            var queueNumber = await _queueService.GenerateQueueInfoAsync(request.ClientId, request.ServiceId);
+            return Ok(new { 
+                QueueNumber = queueNumber,
+                
+            });
         }
+
 
         [HttpPost("call-next")]
         public async Task<IActionResult> CallNextClient([FromBody] CallNextClientRequest request)

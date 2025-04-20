@@ -11,5 +11,7 @@ namespace SystemQueueDigitalisation.Application.Interfaces
     {
         Task<Client> GetByContactInfoAsync(string contactInfo);
         Task<Client> GetByEmailAsync(string email);
+        Task<int?> GetIdByEmailAsync(string email);
+
     }
 }

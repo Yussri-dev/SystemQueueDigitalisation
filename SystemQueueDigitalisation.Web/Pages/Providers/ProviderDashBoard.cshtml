@@ -1,0 +1,138 @@
+﻿@page
+@model SystemQueueDigitalisation.Web.Pages.Providers.ProviderDashBoardModel
+@{
+    ViewData["Title"] = "Dashboard Provider";
+}
+<!-- Header -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="display-6">👋 Welcome, @Model.ProviderEmail</h1>
+    <a href="/logout" class="btn btn-outline-secondary">Logout</a>
+</div>
+
+<!-- Error Message -->
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<!-- Summary Cards -->
+@if (Model.TodayQueues != null && Model.TodayQueues.Any())
+{
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card text-white bg-primary shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Total Queues</h5>
+                    <h2>@Model.TodayQueues.Count</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-success shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Served</h5>
+                    <h2>@Model.TodayQueues.Count(q => q.IsServed)</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-warning shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Pending</h5>
+                    <h2>@Model.TodayQueues.Count(q => !q.IsServed)</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- Filter Form -->
+<form method="get" class="mb-4 d-flex align-items-end gap-2">
+    <div>
+        <label for="filterDate" class="form-label">📅 Filter by date:</label>
+        <input type="date" class="form-control" id="filterDate" name="FilterDate" value="@Model.FilterDate?.ToString("yyyy-MM-dd")" />
+    </div>
+    <button type="submit" class="btn btn-primary">Apply</button>
+</form>
+
+<!-- Queue Table -->
+@if (Model.TodayQueues != null && Model.TodayQueues.Any())
+{
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Queue #</th>
+                    <th>Client</th>
+                    <th>Service</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var q in Model.TodayQueues)
+                {
+                    <tr class="@(!q.IsServed ? "table-warning" : "table-success")">
+                        <td><strong>@q.QueueNumber</strong></td>
+                        <td>@q.ClientEmail</td>
+                        <td>@q.ServiceName</td>
+                        <td>@q.CreatedAt.ToString("HH:mm")</td>
+                        <td>
+                            @if (q.IsServed)
+                            {
+                                <span class="badge bg-success">Served</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning text-dark">Waiting</span>
+                            }
+                        </td>
+                        <td>
+                            @if (!q.IsServed)
+                            {
+                                <form method="post" asp-page-handler="ServeQueue" class="d-inline">
+                                    <input type="hidden" name="queueId" value="@q.QueueId" />
+                                    <button type="submit" class="btn btn-outline-success btn-sm">✅ Serve</button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Export Buttons -->
+    <div class="d-flex justify-content-end gap-2 mt-4">
+        <form method="get" asp-page-handler="ExportCsv">
+            @if (Model.FilterDate.HasValue)
+            {
+                <input type="hidden" name="FilterDate" value="@Model.FilterDate?.ToString("yyyy-MM-dd")" />
+            }
+            <button type="submit" class="btn btn-outline-secondary">
+                🗂 Export CSV
+            </button>
+        </form>
+
+        <form method="get" asp-page-handler="ExportPdf">
+            @if (Model.FilterDate.HasValue)
+            {
+                <input type="hidden" name="FilterDate" value="@Model.FilterDate?.ToString("yyyy-MM-dd")" />
+            }
+            <button type="submit" class="btn btn-outline-danger">
+                📄 Export PDF
+            </button>
+        </form>
+    </div>
+}
+else
+{
+    <!-- Empty State -->
+    <div class="text-center p-5">
+        <h3 class="text-muted">🚫 No queues for today</h3>
+        <p class="text-secondary">Try selecting another date or come back later.</p>
+    </div>
+}

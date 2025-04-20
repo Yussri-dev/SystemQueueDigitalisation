@@ -1,5 +1,5 @@
 ﻿@page
-@model SystemQueueDigitalisation.Web.Pages.Clients.RegisterModel
+@model SystemQueueDigitalisation.Web.Pages.Providers.ProviderRegisterModel
 
 @{
     ViewData["Title"] = "Register";
@@ -13,16 +13,19 @@
         <input asp-for="RegisterRequest.Name" class="form-control" />
         <span asp-validation-for="RegisterRequest.Name" class="text-danger"></span>
     </div>
+
     <div class="form-group">
         <label asp-for="RegisterRequest.Email"></label>
-        <input asp-for="RegisterRequest.Email" class="form-control" />
+        <input asp-for="RegisterRequest.Email" type="email" class="form-control" />
         <span asp-validation-for="RegisterRequest.Email" class="text-danger"></span>
     </div>
+
     <div class="form-group">
         <label asp-for="RegisterRequest.Password"></label>
-        <input asp-for="RegisterRequest.Password" type="password" class="form-control" />
+        <input asp-for="RegisterRequest.Password " type="password" class="form-control" />
         <span asp-validation-for="RegisterRequest.Password" class="text-danger"></span>
     </div>
+
     <div class="form-group">
         <label asp-for="RegisterRequest.Type"></label>
         <input asp-for="RegisterRequest.Type" class="form-control" />

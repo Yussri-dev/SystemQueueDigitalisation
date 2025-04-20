@@ -5,17 +5,17 @@ using SystemQueueDigitalisation.Web.Services;
 
 namespace SystemQueueDigitalisation.Web.Pages.Clients
 {
-    public class RegisterModel : PageModel
+    public class ClientRegisterModel : PageModel
     {
-        private readonly ProviderService _providerService;
+        private readonly ClientService _clientService;
 
-        public RegisterModel(ProviderService providerService)
+        public ClientRegisterModel(ClientService clientService)
         {
-            _providerService = providerService;
+            _clientService = clientService;
         }
 
         [BindProperty]
-        public RegisterProviderRequest RegisterRequest { get; set; }
+        public RegisterClientRequest RegisterRequest { get; set; }
 
         public string Message { get; set; }
 
@@ -28,7 +28,7 @@ namespace SystemQueueDigitalisation.Web.Pages.Clients
             if (!ModelState.IsValid)
                 return Page();
 
-            Message = await _providerService.RegisterProviderAsync(RegisterRequest);
+            Message = await _clientService.RegisterClientAsync(RegisterRequest);
             return Page();
         }
     }

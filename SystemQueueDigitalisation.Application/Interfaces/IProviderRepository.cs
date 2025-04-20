@@ -9,6 +9,12 @@ namespace SystemQueueDigitalisation.Application.Interfaces
 {
     public interface IProviderRepository : IRepository<Provider>
     {
-        Task<Provider> GetByEmailAsync(string email);
+        Task<Provider?> GetByEmailAsync(string email);
+        Task<int?> GetIdByEmailAsync(string email);
+        Task<Provider?> GetWithServicesAsync(int providerId);
+        Task<List<Queue>> GetQueueByServicesAndDateAsync(List<int> serviceIds, DateTime date);
+        Task<Queue?> GetQueueByIdAsync(int queueId);
+        Task UpdateQueueAsync(Queue queue);
     }
+
 }

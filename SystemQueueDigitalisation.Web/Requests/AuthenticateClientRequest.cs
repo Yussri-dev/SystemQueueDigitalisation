@@ -1,6 +1,6 @@
 ﻿namespace SystemQueueDigitalisation.Web.Requests
 {
-    public class AuthenticateProviderRequest
+    public class AuthenticateClientRequest
     {
         public int Id { get; set; }
         public string Email { get; set; }
