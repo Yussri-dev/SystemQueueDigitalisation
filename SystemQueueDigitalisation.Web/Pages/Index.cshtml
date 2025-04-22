@@ -1,10 +1,55 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-5">
+    <div class="row align-items-center">
+        <div class="col-lg-6 text-center text-lg-start">
+            <h1 class="display-4 fw-bold mb-3">Welcome to SystemQueueDigitalisation</h1>
+            <p class="lead text-muted mb-4">
+                Efficient. Paperless. Smart queueing for modern service providers and clients. Save time, reduce wait, and go digital today.
+            </p>
+            <div class="d-flex gap-3 justify-content-center justify-content-lg-start">
+                <a href="/Clients/ClientLogin" class="btn btn-primary btn-lg">Login as Client</a>
+                <a href="/Providers/ProviderLogin" class="btn btn-outline-secondary btn-lg">Login as Provider</a>
+            </div>
+        </div>
+        <div class="col-lg-6 text-center mt-4 mt-lg-0">
+            <img src="~/images/queue_illustration.svg" alt="Queue System" class="img-fluid" style="max-height: 350px;" />
+        </div>
+    </div>
+</div>
+
+<hr class="my-5" />
+
+<div class="container text-center">
+    <h2 class="mb-4">How it Works</h2>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">📋 Register</h5>
+                    <p class="card-text">Clients and providers sign up easily and securely.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">⏱️ Generate Queues</h5>
+                    <p class="card-text">Clients book a service and receive their queue number instantly.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">✅ Get Notified</h5>
+                    <p class="card-text">Providers call the next client and notify them when it’s their turn.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

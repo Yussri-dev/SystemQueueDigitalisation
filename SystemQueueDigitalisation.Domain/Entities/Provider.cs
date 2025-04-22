@@ -17,6 +17,7 @@ namespace SystemQueueDigitalisation.Domain.Entities
         // Type of provider (e.g., "Doctor", "Bank", "Kiosk")
         public string Type { get; set; }
 
+        public bool IsPaymentConfirmed { get; set; } = false;
         // Navigation properties
         public virtual ICollection<Service> Services { get; set; }
     }

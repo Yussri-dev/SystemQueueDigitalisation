@@ -39,5 +39,7 @@ namespace SystemQueueDigitalisation.Web.Services
             var result = await response.Content.ReadFromJsonAsync<ApiResponse>();
             return result?.Message;
         }
+
+
     }
 }

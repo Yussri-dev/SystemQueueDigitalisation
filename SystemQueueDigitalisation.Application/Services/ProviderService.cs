@@ -7,19 +7,16 @@ using SystemQueueDigitalisation.Application.Interfaces.Services;
 using SystemQueueDigitalisation.Application.Interfaces;
 using SystemQueueDigitalisation.Domain.Entities;
 using SystemQueueDigitalisation.Domain.Helpers;
+using System.Data.Entity;
+using SystemQueueDigitalisation.Domain.Dtos;
 
 public class ProviderService : IProviderService
 {
     private readonly IProviderRepository _providerRepository;
-    //private readonly INotificationService _notificationService;
 
-
-    public ProviderService(IProviderRepository providerRepository
-        /*, INotificationService notificationService*/
-        )
+    public ProviderService(IProviderRepository providerRepository)
     {
         _providerRepository = providerRepository;
-        //_notificationService = notificationService;
     }
 
     public async Task RegisterProviderAsync(string name, string email, string password, string type)
@@ -39,7 +36,7 @@ public class ProviderService : IProviderService
         await _providerRepository.AddAsync(provider);
     }
 
-    
+
     public async Task<Provider?> AuthenticateProviderAsync(string email, string password)
     {
         var provider = await _providerRepository.GetByEmailAsync(email);
@@ -108,5 +105,18 @@ public class ProviderService : IProviderService
             IsServed = q.IsServed
         }).ToList();
     }
+
+    public async Task<List<ServiceDto>> GetServicesByProvider(int providerId)
+    {
+        var services = await _providerRepository.GetServicesByProviderAsync(providerId);
+
+        return services.Select(s => new ServiceDto
+        {
+            Id = s.Id,
+            Name = s.Name
+        }).ToList();
+    }
+
+
 
 }

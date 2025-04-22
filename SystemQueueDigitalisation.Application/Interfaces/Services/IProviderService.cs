@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SystemQueueDigitalisation.Domain.Dtos;
 using SystemQueueDigitalisation.Domain.Entities;
 
 namespace SystemQueueDigitalisation.Application.Interfaces.Services
@@ -16,5 +17,7 @@ namespace SystemQueueDigitalisation.Application.Interfaces.Services
         Task<List<QueueInfo>> GetTodayQueueAsync(int providerId);
         Task<List<QueueInfo>> GetQueuesByDateAsync(int providerId, DateTime date);
         Task MarkAsServedAsync(int queueId);
+        Task<List<ServiceDto>> GetServicesByProvider(int providerId);
+
     }
 }

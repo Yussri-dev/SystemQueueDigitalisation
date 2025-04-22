@@ -1,32 +1,42 @@
 ﻿@page
 @model SystemQueueDigitalisation.Web.Pages.Clients.ClientLoginModel
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Client Login";
 }
 
-<h2>Client Login</h2>
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card shadow p-4" style="max-width: 400px; width: 100%;">
+        <h3 class="text-center mb-4 text-primary">Client Login</h3>
+        <form method="post">
+            <div class="form-group mb-3">
+                <label asp-for="LoginRequest.Email" class="form-label">Email</label>
+                <input asp-for="LoginRequest.Email" class="form-control" placeholder="Enter your email" />
+                <span asp-validation-for="LoginRequest.Email" class="text-danger small"></span>
+            </div>
 
-<form method="post">
-    <div class="form-group">
-        <label asp-for="LoginRequest.Email" class="form-label"></label>
-        <input asp-for="LoginRequest.Email" class="form-control" placeholder="Enter your email" />
-        <span asp-validation-for="LoginRequest.Email" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="LoginRequest.Password" class="form-label"></label>
-        <input asp-for="LoginRequest.Password" type="password" class="form-control" placeholder="Enter your password" />
-        <span asp-validation-for="LoginRequest.Password" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary mt-2" id="loginButton">
-        <span id="loginButtonText">Login</span>
-        <span id="loadingSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
-    </button>
+            <div class="form-group mb-3">
+                <label asp-for="LoginRequest.Password" class="form-label">Password</label>
+                <div class="input-group">
+                    <input asp-for="LoginRequest.Password" type="password" class="form-control" placeholder="Enter your password" id="passwordInput" />
+                    <button type="button" class="btn btn-outline-secondary" id="togglePassword">
+                        👁️
+                    </button>
+                </div>
+                <span asp-validation-for="LoginRequest.Password" class="text-danger small"></span>
+            </div>
 
-    @if (!string.IsNullOrEmpty(Model.Message))
-    {
-        <div class="alert alert-info mt-3">@Model.Message</div>
-    }
-</form>
+            <button type="submit" class="btn btn-primary w-100" id="loginButton">
+                <span id="loginButtonText">🔐 Login</span>
+                <span id="loadingSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+            </button>
+
+            @if (!string.IsNullOrEmpty(Model.Message))
+            {
+                <div class="alert alert-info mt-3">@Model.Message</div>
+            }
+        </form>
+    </div>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
@@ -39,6 +49,15 @@
             buttonText.classList.add('d-none');
             spinner.classList.remove('d-none');
             button.disabled = true;
+        });
+
+        const togglePassword = document.getElementById("togglePassword");
+        const passwordInput = document.getElementById("passwordInput");
+
+        togglePassword.addEventListener("click", function () {
+            const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+            passwordInput.setAttribute("type", type);
+            this.textContent = type === "password" ? "👁️" : "🙈";
         });
     </script>
 }

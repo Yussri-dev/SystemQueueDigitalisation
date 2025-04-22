@@ -11,6 +11,7 @@ namespace SystemQueueDigitalisation.Web.Services
             _httpClient = httpClient;
         }
 
+       
         public async Task<string> RegisterProviderAsync(RegisterProviderRequest request)
         {
             var response = await _httpClient.PostAsJsonAsync("api/provider/register", request);
@@ -29,15 +30,6 @@ namespace SystemQueueDigitalisation.Web.Services
             var result = await response.Content.ReadFromJsonAsync<ApiResponse>();
             return result;
         }
-
-        //public async Task<List<QueueInfo>> GetTodayQueuesAsync(int providerId)
-        //{
-        //    var response = await _httpClient.GetAsync($"api/provider/{providerId}/queues/today");
-        //    if (!response.IsSuccessStatusCode)
-        //        return new List<QueueInfo>();
-
-        //    return await response.Content.ReadFromJsonAsync<List<QueueInfo>>();
-        //}
 
         public async Task<List<QueueInfo>> GetTodayQueuesAsync(int providerId)
         {
@@ -74,7 +66,6 @@ namespace SystemQueueDigitalisation.Web.Services
             }
         }
 
-
         public async Task<List<QueueInfo>> GetQueuesByDateAsync(int providerId, DateTime date)
         {
             var formattedDate = date.ToString("yyyy-MM-dd");
@@ -85,13 +76,12 @@ namespace SystemQueueDigitalisation.Web.Services
             return await response.Content.ReadFromJsonAsync<List<QueueInfo>>();
         }
 
-
-
         public async Task<bool> MarkAsServedAsync(int queueId)
         {
             var response = await _httpClient.PutAsync($"api/provider/queue/{queueId}/serve", null);
             return response.IsSuccessStatusCode;
         }
 
+       
     }
 }

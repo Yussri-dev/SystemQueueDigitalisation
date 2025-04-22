@@ -1,0 +1,119 @@
+﻿@page
+@model SystemQueueDigitalisation.Web.Pages.Admin.AdminDashboardModel
+@{
+    ViewData["Title"] = "Tableau de bord administrateur";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Tableau de bord administrateur</h1>
+
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Paiements en attente</h5>
+        </div>
+        <div class="card-body">
+            @if (Model.PendingPayments.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom du prestataire</th>
+                                <th>Email</th>
+                                <th>Date d'inscription</th>
+                                <th>Montant</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var provider in Model.PendingPayments)
+                            {
+                                <tr>
+                                    <td>@provider.Id</td>
+                                    <td>@provider.Name</td>
+                                    <td>@provider.Email</td>
+                                    @* <td>@provider.RegistrationDate.ToShortDateString()</td> *@
+                                    @* <td>@provider.PaymentAmount €</td> *@
+                                    <td>
+                                        <form method="post" asp-page-handler="ConfirmPayment" asp-route-providerId="@provider.Id">
+                                            <button type="submit" class="btn btn-success btn-sm">
+                                                <i class="bi bi-check-circle"></i> Confirmer paiement
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    Aucun paiement en attente de confirmation.
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Statistiques</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Nombre total de prestataires:</span>
+                        <span class="badge bg-primary">@Model.Stats.TotalProviders</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Paiements confirmés:</span>
+                        <span class="badge bg-success">@Model.Stats.ConfirmedPayments</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>Paiements en attente:</span>
+                        <span class="badge bg-warning">@Model.Stats.PendingPayments</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0">Actions rapides</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a asp-page="/Admin/ManageProviders" class="btn btn-outline-primary">
+                            <i class="bi bi-people"></i> Gérer les prestataires
+                        </a>
+                        <a asp-page="/Admin/Reports" class="btn btn-outline-info">
+                            <i class="bi bi-graph-up"></i> Rapports financiers
+                        </a>
+                        <a asp-page="/Admin/Settings" class="btn btn-outline-secondary">
+                            <i class="bi bi-gear"></i> Paramètres du système
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Confirmation avant de valider un paiement
+        document.addEventListener('DOMContentLoaded', function () {
+            const forms = document.querySelectorAll('form[asp-page-handler="ConfirmPayment"]');
+            forms.forEach(form => {
+                form.addEventListener('submit', function (e) {
+                    if (!confirm('Êtes-vous sûr de vouloir confirmer ce paiement?')) {
+                        e.preventDefault();
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SystemQueueDigitalisation.Api.RequestModel;
 using SystemQueueDigitalisation.Application.Interfaces.Services;
 using SystemQueueDigitalisation.Domain.Entities;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SystemQueueDigitalisation.Api.Controllers
 {
@@ -32,6 +33,10 @@ namespace SystemQueueDigitalisation.Api.Controllers
             if (provider == null)
                 return Unauthorized(new { Message = "Invalid credentials." });
 
+            if (!provider.IsPaymentConfirmed)
+            {
+                return Unauthorized(new { Message = "Payment is required to use the System" });
+            }
             return Ok(new { Message = "Authentication successful.", ProviderId = provider.Id });
         }
 
@@ -56,6 +61,14 @@ namespace SystemQueueDigitalisation.Api.Controllers
             var queues = await _providerService.GetQueuesByDateAsync(providerId, date);
             return Ok(queues);
         }
+
+        [HttpGet("byprovider/{providerId}")]
+        public async Task<IActionResult> GetServicesByProvider(int providerId)
+        {
+            var services = await _providerService.GetServicesByProvider(providerId);
+            return Ok(services);
+        }
+
 
     }
 }

@@ -15,6 +15,8 @@ namespace SystemQueueDigitalisation.Application.Interfaces
         Task<List<Queue>> GetQueueByServicesAndDateAsync(List<int> serviceIds, DateTime date);
         Task<Queue?> GetQueueByIdAsync(int queueId);
         Task UpdateQueueAsync(Queue queue);
+        Task<List<Service>> GetServicesByProviderAsync(int providerId);
+
     }
 
 }

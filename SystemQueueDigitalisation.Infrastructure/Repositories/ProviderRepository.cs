@@ -56,6 +56,13 @@ namespace SystemQueueDigitalisation.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-
+        // Corrected async method for GetServicesByProviderAsync
+        public async Task<List<Service>> GetServicesByProviderAsync(int providerId)
+        {
+            return await _context.Services
+                .Where(s => s.ProviderId == providerId)
+                .ToListAsync();
+        }
     }
+
 }

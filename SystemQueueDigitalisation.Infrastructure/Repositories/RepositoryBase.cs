@@ -42,6 +42,11 @@ namespace SystemQueueDigitalisation.Infrastructure.Repositories
             _dbSet.Remove(entity);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<List<T>> GetAllAsync()
+        {
+            return await _dbSet.ToListAsync();
+        }
     }
 
 }

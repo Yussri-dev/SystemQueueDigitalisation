@@ -136,3 +136,64 @@ else
         <p class="text-secondary">Try selecting another date or come back later.</p>
     </div>
 }
+<!-- SignalR and Auto-Refresh -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+<script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/queueHub")
+        .build();
+
+    connection.on("QueueUpdated", function (data) {
+        console.log("Queue updated:", data);
+        refreshTable();
+        playSound();
+    });
+
+    connection.on("NewQueue", function (data) {
+        console.log("New queue arrived:", data);
+        refreshTable();
+        playSound();
+    });
+
+    connection.start().catch(err => console.error(err.toString()));
+
+    function playSound() {
+        @* const audio = new Audio('/sounds/queue-alert.mp3');
+        audio.play(); *@
+
+            function playSound() {
+        // Make sure this path is correct
+        const audio = new Audio('/sounds/queue-alert.mp3');
+        audio.play();
+
+        // You could also flash the page title or show a toast notification
+        document.title = "🔔 New Queue! - Dashboard";
+        setTimeout(() => {
+            document.title = "Dashboard Provider";
+        }, 3000);
+    }
+    }
+
+    function refreshTable() {
+        fetch(window.location.href)
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newTableBody = doc.querySelector("table tbody");
+                const currentTable = document.querySelector("table tbody");
+                if (newTableBody && currentTable) {
+                    currentTable.innerHTML = newTableBody.innerHTML;
+                }
+
+                // Optional: Update summary cards too
+                const newCards = doc.querySelectorAll('.card-body h2');
+                const currentCards = document.querySelectorAll('.card-body h2');
+                if (newCards.length === currentCards.length) {
+                    newCards.forEach((el, idx) => {
+                        currentCards[idx].innerText = el.innerText;
+                    });
+                }
+            });
+    }
+</script>

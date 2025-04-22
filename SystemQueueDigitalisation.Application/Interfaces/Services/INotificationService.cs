@@ -10,5 +10,6 @@ namespace SystemQueueDigitalisation.Application.Interfaces.Services
     {
         Task NotifyQueueUpdatedAsync(object queueData);
         Task NotifyNewQueueAsync(object queueData);
+        Task NotifyUserAsync(string userId, string message);
     }
 }

@@ -2,93 +2,111 @@
 @model SystemQueueDigitalisation.Web.Pages.Clients.ClientRegisterModel
 
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Client Registration";
 }
 
-<h2>Register as Provider</h2>
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh;">
+    <div class="card shadow p-4 w-100" style="max-width: 600px;">
+        <h3 class="text-center text-success mb-4">Register as Client</h3>
 
-<form method="post">
-    <div class="form-group">
-        <label asp-for="RegisterRequest.FirstName"></label>
-        <input asp-for="RegisterRequest.FirstName" class="form-control" />
-        <span asp-validation-for="RegisterRequest.FirstName" class="text-danger"></span>
+        <form method="post">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label asp-for="RegisterRequest.FirstName" class="form-label">First Name</label>
+                    <input asp-for="RegisterRequest.FirstName" class="form-control" />
+                    <span asp-validation-for="RegisterRequest.FirstName" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="RegisterRequest.LastName" class="form-label">Last Name</label>
+                    <input asp-for="RegisterRequest.LastName" class="form-control" />
+                    <span asp-validation-for="RegisterRequest.LastName" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="RegisterRequest.ContactInfo" class="form-label">Contact Info</label>
+                    <input asp-for="RegisterRequest.ContactInfo" class="form-control" />
+                    <span asp-validation-for="RegisterRequest.ContactInfo" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="RegisterRequest.BirthDate" class="form-label">Birth Date</label>
+                    <input asp-for="RegisterRequest.BirthDate" type="date" class="form-control" />
+                    <span asp-validation-for="RegisterRequest.BirthDate" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="RegisterRequest.Adress" class="form-label">Address</label>
+                    <input asp-for="RegisterRequest.Adress" class="form-control" />
+                    <span asp-validation-for="RegisterRequest.Adress" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-3">
+                    <label asp-for="RegisterRequest.City" class="form-label">City</label>
+                    <input asp-for="RegisterRequest.City" class="form-control" />
+                    <span asp-validation-for="RegisterRequest.City" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-3">
+                    <label asp-for="RegisterRequest.PostCode" class="form-label">Post Code</label>
+                    <input asp-for="RegisterRequest.PostCode" class="form-control" />
+                    <span asp-validation-for="RegisterRequest.PostCode" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-3">
+                    <label asp-for="RegisterRequest.AdressNumber" class="form-label">Address No.</label>
+                    <input asp-for="RegisterRequest.AdressNumber" class="form-control" />
+                    <span asp-validation-for="RegisterRequest.AdressNumber" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-3">
+                    <label asp-for="RegisterRequest.BoxNumber" class="form-label">Box No.</label>
+                    <input asp-for="RegisterRequest.BoxNumber" class="form-control" />
+                    <span asp-validation-for="RegisterRequest.BoxNumber" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="RegisterRequest.Email" class="form-label">Email</label>
+                    <input asp-for="RegisterRequest.Email" type="email" class="form-control" />
+                    <span asp-validation-for="RegisterRequest.Email" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="RegisterRequest.PasswordHash" class="form-label">Password</label>
+                    <div class="input-group">
+                        <input asp-for="RegisterRequest.PasswordHash" type="password" class="form-control" id="passwordInput" />
+                        <button type="button" class="btn btn-outline-secondary" id="togglePassword">👁️</button>
+                    </div>
+                    <span asp-validation-for="RegisterRequest.PasswordHash" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="RegisterRequest.Age" class="form-label">Age</label>
+                    <input asp-for="RegisterRequest.Age" type="number" class="form-control" />
+                    <span asp-validation-for="RegisterRequest.Age" class="text-danger small"></span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100 mt-4">📝 Register</button>
+
+            @if (!string.IsNullOrEmpty(Model.Message))
+            {
+                <div class="alert alert-info mt-3">@Model.Message</div>
+            }
+        </form>
     </div>
-
-    <div class="form-group">
-        <label asp-for="RegisterRequest.LastName"></label>
-        <input asp-for="RegisterRequest.LastName" class="form-control" />
-        <span asp-validation-for="RegisterRequest.LastName" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="RegisterRequest.ContactInfo"></label>
-        <input asp-for="RegisterRequest.ContactInfo" class="form-control" />
-        <span asp-validation-for="RegisterRequest.ContactInfo" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="RegisterRequest.Adress"></label>
-        <input asp-for="RegisterRequest.Adress" class="form-control" />
-        <span asp-validation-for="RegisterRequest.Adress" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="RegisterRequest.City"></label>
-        <input asp-for="RegisterRequest.City" class="form-control" />
-        <span asp-validation-for="RegisterRequest.City" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="RegisterRequest.PostCode"></label>
-        <input asp-for="RegisterRequest.PostCode" class="form-control" />
-        <span asp-validation-for="RegisterRequest.PostCode" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="RegisterRequest.AdressNumber"></label>
-        <input asp-for="RegisterRequest.AdressNumber" class="form-control" />
-        <span asp-validation-for="RegisterRequest.AdressNumber" class="text-danger"></span>
-    </div>
-
-
-    <div class="form-group">
-        <label asp-for="RegisterRequest.BoxNumber"></label>
-        <input asp-for="RegisterRequest.BoxNumber" class="form-control" />
-        <span asp-validation-for="RegisterRequest.BoxNumber" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="RegisterRequest.BirthDate"></label>
-        <input asp-for="RegisterRequest.BirthDate" type="date" class="form-control" />
-        <span asp-validation-for="RegisterRequest.BirthDate" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="RegisterRequest.Email"></label>
-        <input asp-for="RegisterRequest.Email" type="email" class="form-control" />
-        <span asp-validation-for="RegisterRequest.Email" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="RegisterRequest.PasswordHash"></label>
-        <input asp-for="RegisterRequest.PasswordHash" type="password" class="form-control" />
-        <span asp-validation-for="RegisterRequest.PasswordHash" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="RegisterRequest.Age"></label>
-        <input asp-for="RegisterRequest.Age" type="number" class="form-control" />
-        <span asp-validation-for="RegisterRequest.Age" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-success mt-2">Register</button>
-
-    @if (!string.IsNullOrEmpty(Model.Message))
-    {
-        <div class="alert alert-info mt-3">@Model.Message</div>
-    }
-</form>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-}
+    <script>
+        const togglePassword = document.getElementById("togglePassword");
+        const passwordInput = document.getElementById("passwordInput");
 
+        togglePassword.addEventListener("click", function () {
+            const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+            passwordInput.setAttribute("type", type);
+            this.textContent = type === "password" ? "👁️" : "🙈";
+        });
+    </script>
+}

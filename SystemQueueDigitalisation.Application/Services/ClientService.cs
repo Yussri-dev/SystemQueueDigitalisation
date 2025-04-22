@@ -51,24 +51,6 @@ namespace SystemQueueDigitalisation.Application.Services
             return client.Id;
         }
 
-        //public async Task<bool> AuthenticateClientAsync(int id, string email, string password)
-        //{
-        //    var client = await _clientRepository.GetByEmailAsync(email);
-        //    var clientId = await _clientRepository.GetIdByEmailAsync(email);
-        //    if (client == null)
-        //    {
-        //        return false;
-        //    }
-        //    if (clientId ==null)
-        //    {
-        //        return false;
-        //    }
-
-        //    var trimmedPassword = password.Trim();
-
-        //    return PasswordHelper.VerifyPassword(trimmedPassword, client.PasswordHash);
-        //}
-
         public async Task<int?> AuthenticateClientAsync(string email, string password)
         {
             var client = await _clientRepository.GetByEmailAsync(email);
