@@ -63,6 +63,11 @@ namespace SystemQueueDigitalisation.Infrastructure.Repositories
                 .Where(s => s.ProviderId == providerId)
                 .ToListAsync();
         }
+
+        public async Task<List<Provider>> GetAllProviders()
+        {
+            return await _context.Providers.ToListAsync();
+        }
     }
 
 }

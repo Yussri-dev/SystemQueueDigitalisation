@@ -9,6 +9,7 @@ using SystemQueueDigitalisation.Domain.Entities;
 using SystemQueueDigitalisation.Domain.Helpers;
 using System.Data.Entity;
 using SystemQueueDigitalisation.Domain.Dtos;
+using SystemQueueDigitalisation.Web.Requests.ProviderRequests;
 
 public class ProviderService : IProviderService
 {
@@ -115,6 +116,18 @@ public class ProviderService : IProviderService
             Id = s.Id,
             Name = s.Name
         }).ToList();
+    }
+
+    public async Task<List<ProviderRequest>> GetAllProviders()
+    {
+        var providers = await _providerRepository.GetAllProviders();
+
+        return providers.Select(p => new ProviderRequest
+        {
+            Id = p.Id,
+            ProviderName = p.Name,
+            Type = p.Type
+        }).ToList(); 
     }
 
 

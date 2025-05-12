@@ -1,11 +1,163 @@
 ﻿@page
 @model SystemQueueDigitalisation.Web.Pages.Clients.ClientDashBoardModel
 @{
-    ViewData["Title"] = "Dashboard Client";
+    ViewData["Title"] = "Client Dashboard";
 }
 
-<h2>Welcome, @Model.ClientEmail!</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
 
-<p>Your Client ID: @Model.ClientId</p>
 
-<a asp-page="/Index" class="btn btn-secondary">Logout</a>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7fb;
+            color: #333;
+        }
+
+        .navbar {
+            border-bottom: 2px solid #eee;
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .navbar-nav .nav-link {
+            font-weight: 500;
+            padding-right: 20px;
+            padding-left: 20px;
+        }
+
+        .content-wrapper {
+            padding: 40px 30px;
+        }
+
+        .welcome-section {
+            background: linear-gradient(135deg, #3f80d1, #88d8f7);
+            padding: 60px 30px;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .card {
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+            .card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            }
+
+        .card-body {
+            padding: 25px;
+        }
+
+        .card-title {
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background-color: #3f80d1;
+            border-color: #3f80d1;
+        }
+
+            .btn-primary:hover {
+                background-color: #2a6ba4;
+                border-color: #2a6ba4;
+            }
+
+        .nav-item {
+            margin-bottom: 15px;
+        }
+
+        hr {
+            border-top: 1px solid #eee;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="content-wrapper">
+        <!-- Welcome Section -->
+        <div class="welcome-section mb-4">
+            <h2>Welcome, @Model.ClientEmail!</h2>
+            <p>Manage your appointments and stay updated with your queue status right here!</p>
+        </div>
+
+        <!-- Dashboard Cards -->
+        <div class="row g-4">
+            <!-- Profile Card -->
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">📋 Profile</h5>
+                        <p class="card-text">View and update your personal information and settings.</p>
+                        <a href="/Clients/ClientProfile" class="btn btn-primary">View Profile</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">⏱️ Queue Status</h5>
+                        <p class="card-text">Check your current position in the queue and estimated wait time.</p>
+                        <a href="/Queue/QueueClientStatus" class="btn btn-primary">Check Status</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">📅 Upcoming Appointments</h5>
+                        <p class="card-text">See your upcoming appointments and manage them easily.</p>
+                        <a href="/Appointments/UpcomingAppointments" class="btn btn-primary">View Appointments</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-5">
+            <h3 class="mb-3">Quick Stats</h3>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Total Appointments</h5>
+                            <p class="card-text">@Model.Count</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Upcoming</h5>
+                            <p class="card-text">@Model.UpcomingAppointments</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Queued</h5>
+                            <p class="card-text">3</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

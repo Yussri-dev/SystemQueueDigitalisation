@@ -1,0 +1,32 @@
+﻿@page
+@model SystemQueueDigitalisation.Web.Pages.Appointments.AppointmentGeneratorModel
+@{
+    ViewData["Title"] = "Generate Appointments";
+}
+
+<div class="container">
+    <form method="post">
+        <div class="form-group mb-3">
+            <label asp-for="AppointmentRequest.Day" class="form-label">Day</label>
+            <input type="date" asp-for="AppointmentRequest.Day" class="form-label" />
+            <span asp-validation-for="AppointmentRequest.Day" class="text-danger small"></span>/>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="AppointmentRequest.Hour">Hour Starting</label>
+            <input type="number" asp-for="AppointmentRequest.Hour" class="form-label" />
+            <span asp-validation-for="AppointmentRequest.Hour" class="text-danger small"></span>/>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="AppointmentRequest.appointmentTime">Hour Starting</label>
+            <input type="number" asp-for="AppointmentRequest.Hour" class="form-label" />
+            <span asp-validation-for="AppointmentRequest.Hour" class="text-danger small"></span>/>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100" id="loginButton">
+            <span>Generate</span>
+        </button>
+    </form>
+</div>
+

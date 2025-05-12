@@ -1,4 +1,5 @@
 ﻿using SystemQueueDigitalisation.Web.Requests;
+using SystemQueueDigitalisation.Web.Requests.ClientRequests;
 
 namespace SystemQueueDigitalisation.Web.Services
 {
@@ -29,6 +30,21 @@ namespace SystemQueueDigitalisation.Web.Services
             var result = await response.Content.ReadFromJsonAsync<ApiResponse>();
             return result;
         }
+
+        public async Task<bool> UpdateClientAsync(ClientProfileRequest request)
+        {
+            var response = await _httpClient.PutAsJsonAsync("api/client/update", request);
+
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<ClientProfileRequest> GetClientByEmailAsync(string email)
+        {
+            var response = await _httpClient.GetFromJsonAsync<ClientProfileRequest>($"api/client?email={email}");
+            return response;
+        }
+
+
 
     }
 }

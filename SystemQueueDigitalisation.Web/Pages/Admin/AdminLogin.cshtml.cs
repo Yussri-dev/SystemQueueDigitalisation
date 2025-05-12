@@ -30,15 +30,19 @@ namespace SystemQueueDigitalisation.Web.Pages.Admin
 
             if (result.IsSuccess)
             {
+                // Set roles in session
+                _sessionService.SetToken(result.Token);
+                _sessionService.SetUserRole(result.Roles);
+
                 var roles = _sessionService.GetUserRoles();
                 if (roles.Contains("Admin") || roles.Contains("Owner"))
                 {
-                    return RedirectToPage("/Admin/Dashboard");
+                    return RedirectToPage("/Admin/AdminDashboard");
                 }
 
                 // Non autorisé - déconnexion
                 _authService.Logout();
-                ModelState.AddModelError(string.Empty, "Vous n'avez pas les permissions requises");
+                ModelState.AddModelError(string.Empty, "You do not have permissions");
                 return Page();
             }
 

@@ -8,6 +8,8 @@
         public string ServiceName { get; set; }
         public DateTime CreatedAt { get; set; }
         public bool IsServed { get; set; }
+        public DateTime? AppointmentDate { get; set; }
+        public DateTime? AppointmentTime { get; set; }
     }
 
 }

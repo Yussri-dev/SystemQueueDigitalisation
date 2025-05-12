@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SystemQueueDigitalisation.Api.RequestModel;
+using SystemQueueDigitalisation.Api.RequestModel.ClientRequests;
 using SystemQueueDigitalisation.Application.Interfaces.Services;
+using SystemQueueDigitalisation.Domain.Dtos;
 using SystemQueueDigitalisation.Domain.Entities;
+using SystemQueueDigitalisation.Web.Services;
 
 namespace SystemQueueDigitalisation.Api.Controllers
 {
@@ -37,14 +40,6 @@ namespace SystemQueueDigitalisation.Api.Controllers
             return Ok(new { ClientId = clientId });
         }
 
-        [HttpGet]
-        public async Task<Client> GetClientByEmailAsync(string email)
-        {
-            return await _clientService.GetClientByEmailAsync(email);
-        }
-
-        
-
         [HttpPost("authenticate")]
         public async Task<IActionResult> Authenticate([FromBody] AuthenticateClientRequest request)
         {
@@ -56,7 +51,25 @@ namespace SystemQueueDigitalisation.Api.Controllers
             return Ok(new { Message = "Authentication successful.", ClientId = clientId });
         }
 
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateClient([FromBody] ClientDto updatedClient)
+        {
+            var result = await _clientService.UpdateClientAsync(updatedClient);
+            return result ? Ok() : BadRequest("Update failed.");
+        }
 
+        [HttpGet]
+        public async Task<ActionResult<Client>> GetClientByEmailAsync([FromQuery] string email)
+        {
+            var client = await _clientService.GetClientByEmailAsync(email);
+            if (client == null)
+            {
+                return NotFound("Client not found.");
+            }
+            return Ok(client);
+        }
+
+        
 
     }
 }

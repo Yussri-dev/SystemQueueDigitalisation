@@ -1,0 +1,146 @@
+﻿@page
+@model SystemQueueDigitalisation.Web.Pages.Clients.ClientProfileModel
+@{
+    ViewData["Title"] = "Client Profile";
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7fb;
+            color: #333;
+        }
+
+        .profile-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, #3f80d1, #88d8f7);
+            padding: 30px;
+            color: #fff;
+            border-radius: 16px 16px 0 0;
+        }
+
+            .profile-header h2 {
+                font-size: 1.8rem;
+                margin: 0;
+            }
+
+        .form-label {
+            font-weight: 500;
+        }
+
+        .form-control[readonly] {
+            background-color: #e9ecef;
+            border: 1px solid #ced4da;
+        }
+
+        .info-section {
+            padding: 20px;
+        }
+
+            .info-section h4 {
+                margin-bottom: 1rem;
+                font-weight: 600;
+                color: #555;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="profile-card">
+            <form method="post">
+                <input asp-for="ClientProfileRequest.Id" type="hidden" />
+                <input asp-for="ClientProfileRequest.FirstName" type="hidden" />
+                <input asp-for="ClientProfileRequest.LastName" type="hidden" />
+                <input asp-for="ClientProfileRequest.Age" type="hidden" />
+                <input asp-for="ClientProfileRequest.Email" type="hidden" />
+
+                <div class="profile-header d-flex justify-content-between align-items-center">
+                    <h2>👤 @Model.ClientProfileRequest.FirstName @Model.ClientProfileRequest.LastName</h2>
+                    <a href="/logout" class="btn btn-outline-light">Logout</a>
+                </div>
+
+                <div class="info-section row mt-4">
+                    <h4 class="col-12 mb-3">Personal Info</h4>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Email</label>
+                        <input class="form-control" value="@Model.ClientProfileRequest.Email" readonly />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Contact Info</label>
+                        <input asp-for="ClientProfileRequest.ContactInfo" class="form-control" />
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Birth Date</label>
+                        <input asp-for="ClientProfileRequest.BirthDate" type="date" class="form-control" />
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Age</label>
+                        <input class="form-control" value="@Model.ClientProfileRequest.Age" readonly />
+                    </div>
+                </div>
+
+                <div class="info-section row">
+                    <h4 class="col-12 mb-3">Address</h4>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Street</label>
+                        <input asp-for="ClientProfileRequest.Adress" class="form-control" />
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Number</label>
+                        <input asp-for="ClientProfileRequest.AdressNumber" class="form-control" />
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Box</label>
+                        <input asp-for="ClientProfileRequest.BoxNumber" class="form-control" />
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">City</label>
+                        <input asp-for="ClientProfileRequest.City" class="form-control" />
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Postal Code</label>
+                        <input asp-for="ClientProfileRequest.PostCode" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="mt-4 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+
+            @if (!string.IsNullOrEmpty(Model.Message))
+            {
+                <div class="alert alert-info mt-3">@Model.Message</div>
+            }
+
+        </div>
+    </div>
+
+</body>
+</html>

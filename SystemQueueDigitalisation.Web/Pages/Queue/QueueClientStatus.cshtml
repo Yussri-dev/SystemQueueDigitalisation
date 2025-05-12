@@ -1,0 +1,109 @@
+﻿@page
+@model SystemQueueDigitalisation.Web.Pages.Queue.QueueClientStatusModel
+@{
+    ViewData["Title"] = "Queue Status";
+    var selectedFilter = Model.SelectedFilter ?? "All";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewData["Title"]</title>
+    <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f5f8fa;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .status-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            margin-top: 40px;
+        }
+
+        h2 {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .table th {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="status-card">
+            <h2 class="mb-4">@ViewData["Title"]</h2>
+
+            <form method="get" class="row mb-3">
+                <div class="col-md-4">
+
+                    <select name="SelectedFilter" class="form-select" onchange="this.form.submit()">
+
+                        <option value="All" selected="@("All" == selectedFilter)">All</option>
+                        <option value="Served" selected="@("Served" == selectedFilter)">Served</option>
+                        <option value="NotServed" selected="@("NotServed" == selectedFilter)">Not Served</option>
+                    </select>
+                </div>
+            </form>
+
+            @{
+                var filteredQueues = Model.Queues;
+
+                if (selectedFilter == "Served")
+                {
+                    filteredQueues = Model.Queues.Where(q => q.IsServed).ToList();
+                }
+                else if (selectedFilter == "NotServed")
+                {
+                    filteredQueues = Model.Queues.Where(q => !q.IsServed).ToList();
+                }
+            }
+
+            @if (filteredQueues == null || !filteredQueues.Any())
+            {
+                <div class="alert alert-info">No queue records found for this filter.</div>
+            }
+            else
+            {
+                <table class="table table-hover table-bordered align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th># Queue</th>
+                            <th>Service</th>
+                            <th>Created At</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var queue in filteredQueues)
+                        {
+                            <tr>
+                                <td>@queue.QueueNumber</td>
+                                <td>@queue.ServiceName</td>
+                                <td>@queue.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                                <td>
+                                    @if (!queue.IsServed)
+                                    {
+                                        <span class="badge bg-danger">Not Served</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-success">Served</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</body>
+</html>

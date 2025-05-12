@@ -9,17 +9,24 @@ using SystemQueueDigitalisation.Web.Requests;
 using SystemQueueDigitalisation.Web.Services;
 using Microsoft.AspNetCore.SignalR;
 using SystemQueueDigitalisation.Web.Hubs;
+using SystemQueueDigitalisation.Web.Requests.ProviderRequests;
 
 namespace SystemQueueDigitalisation.Web.Pages.Queue
 {
     public class QueueGeneratorModel : PageModel
     {
         private readonly QueueService _queueService;
+        private readonly ProviderService _providerService;
+
         private readonly IHubContext<QueueHub> _hubContext;
 
-        public QueueGeneratorModel(QueueService queueService, IHubContext<QueueHub> hubContext)
+        public QueueGeneratorModel(
+            QueueService queueService,
+            ProviderService providerService,
+            IHubContext<QueueHub> hubContext)
         {
             _queueService = queueService;
+            _providerService = providerService;
             _hubContext = hubContext;
 
         }
@@ -34,7 +41,9 @@ namespace SystemQueueDigitalisation.Web.Pages.Queue
         public string QrCodeBase64 { get; set; }
         public string Message { get; set; }
 
-        public IActionResult OnGet()
+        public List<ProviderRequest> Providers { get; set; }
+
+        public async Task<IActionResult> OnGet()
         {
             var clientId = HttpContext.Session.GetInt32("ClientId");
             var clientEmail = HttpContext.Session.GetString("ClientEmail");
@@ -48,6 +57,8 @@ namespace SystemQueueDigitalisation.Web.Pages.Queue
             {
                 ClientId = clientId.Value
             };
+
+            Providers = await _providerService.GetAllProviders(); 
 
             return Page();
         }
@@ -64,12 +75,21 @@ namespace SystemQueueDigitalisation.Web.Pages.Queue
 
             GenerateQueueRequest.ClientId = clientId.Value;
 
+            Providers = await _providerService.GetAllProviders() ?? new List<ProviderRequest>();
+
+
             QueueInfo = await _queueService.GenerateQueueInfo(GenerateQueueRequest);
+
+            if (QueueInfo == null)
+            {
+                return RedirectToPage("/Error");
+            }
 
             var qrText = $"Queue: {QueueInfo.QueueNumber}\n" +
                          $"Client: {QueueInfo.ClientEmail}\n" +
                          $"Service: {QueueInfo.ServiceName}\n" +
-                         $"Provider: {QueueInfo.ProviderName} ({QueueInfo.ProviderType})";
+                         $"Provider: {QueueInfo.ProviderName}\n " +
+                         $"({QueueInfo.ProviderType})";
 
             using var qrGen = new QRCodeGenerator();
             using var qrData = qrGen.CreateQrCode(qrText, QRCodeGenerator.ECCLevel.Q);

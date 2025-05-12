@@ -33,7 +33,7 @@ namespace SystemQueueDigitalisation.Web.Services
             {
                 // Enregistrer le token dans la session
                 _sessionService.SetToken(authResponse.Token);
-                //_sessionService.SetUserRole(authResponse.Roles);
+                _sessionService.SetUserRole(authResponse.Roles);
             }
 
             return authResponse;

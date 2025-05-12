@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SystemQueueDigitalisation.Domain.Dtos;
 using SystemQueueDigitalisation.Domain.Entities;
 
 namespace SystemQueueDigitalisation.Application.Interfaces.Services
@@ -15,5 +16,8 @@ namespace SystemQueueDigitalisation.Application.Interfaces.Services
         //Task<bool> AuthenticateClientAsync(int id,string email, string password);
 
         Task<int?> AuthenticateClientAsync(string email, string password);
+        Task<bool> UpdateClientAsync(ClientDto updatedClient);
+
+       
     }
 }

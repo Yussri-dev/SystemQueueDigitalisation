@@ -13,5 +13,7 @@ namespace SystemQueueDigitalisation.Application.Interfaces
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
         Task<List<T>> GetAllAsync();
+        Task UpdateRangeAsync(List<T> entities);
+
     }
 }

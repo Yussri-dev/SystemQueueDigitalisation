@@ -47,6 +47,12 @@ namespace SystemQueueDigitalisation.Infrastructure.Repositories
         {
             return await _dbSet.ToListAsync();
         }
+
+        public async Task UpdateRangeAsync(List<T> entities)
+        {
+            _dbSet.UpdateRange(entities);
+            await _context.SaveChangesAsync();
+        }
     }
 
 }

@@ -49,6 +49,36 @@ namespace SystemQueueDigitalisation.Infrastructure.Identity
             };
         }
 
+        //public async Task<AuthResponseDto> RegisterAsync(RegisterDto dto)
+        //{
+        //    var user = new ApplicationUser
+        //    {
+        //        UserName = dto.Email,
+        //        Email = dto.Email,
+        //        FirstName = dto.FirstName,
+        //        LastName = dto.LastName
+        //    };
+
+        //    var result = await _userManager.CreateAsync(user, dto.Password);
+
+        //    if (!result.Succeeded)
+        //    {
+        //        return new AuthResponseDto
+        //        {
+        //            IsSuccess = false,
+        //            ErrorMessage = string.Join(", ", result.Errors.Select(e => e.Description))
+        //        };
+        //    }
+
+        //    return new AuthResponseDto
+        //    {
+        //        IsSuccess = true,
+        //        UserName = user.UserName,
+        //        Token = "mock_token_or_generate_one",
+        //        Roles = new List<string> { "User" }
+        //    };
+        //}
+
         public async Task<AuthResponseDto> RegisterAsync(RegisterDto dto)
         {
             var user = new ApplicationUser
@@ -70,14 +100,25 @@ namespace SystemQueueDigitalisation.Infrastructure.Identity
                 };
             }
 
+            //  Assign role to user
+            var role = "Admin"; // or "User", "Owner", etc.
+            await _userManager.AddToRoleAsync(user, role);
+
+            // Fetch the assigned roles again
+            var roles = await _userManager.GetRolesAsync(user);
+
+            // Optional: Generate real token
+            var token = _tokenService.GenerateJwtToken(user.Id, user.UserName, roles);
+
             return new AuthResponseDto
             {
                 IsSuccess = true,
                 UserName = user.UserName,
-                Token = "mock_token_or_generate_one",
-                Roles = new List<string> { "User" }
+                Token = token,
+                Roles = roles.ToList()
             };
         }
+
 
     }
 }

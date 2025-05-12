@@ -14,7 +14,18 @@
         public DateTime BirthDate { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }
-        public int Age { get; set; } 
+        //public int Age { get; set; }
+
+        public int Age
+        {
+            get
+            {
+                var today = DateTime.Today;
+                var age = today.Year - BirthDate.Year;
+                if (BirthDate.Date > today.AddYears(-age)) age--;
+                return age;
+            }
+        }
 
         // Navigation property: A client can have multiple queues
         public virtual ICollection<Queue> Queues { get; set; }

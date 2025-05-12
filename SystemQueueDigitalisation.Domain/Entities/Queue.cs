@@ -3,8 +3,13 @@
     public class Queue
     {
         public int Id { get; set; }
-        public string QueueNumber { get; set; }
-        public DateTime CreatedAt { get; set; } 
+        public required string QueueNumber { get; set; }
+        public DateTime CreatedAt { get; set; }
+
+        //creating Appointment date and Time
+        public DateTime? AppointmentDate { get; set; }
+        public DateTime? AppointmentTime { get; set; }
+
         public DateTime? CalledAt { get; set; }
         public bool IsServed { get; set; }
 

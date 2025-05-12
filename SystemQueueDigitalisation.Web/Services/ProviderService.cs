@@ -1,4 +1,5 @@
 ﻿using SystemQueueDigitalisation.Web.Requests;
+using SystemQueueDigitalisation.Web.Requests.ProviderRequests;
 
 namespace SystemQueueDigitalisation.Web.Services
 {
@@ -11,7 +12,6 @@ namespace SystemQueueDigitalisation.Web.Services
             _httpClient = httpClient;
         }
 
-       
         public async Task<string> RegisterProviderAsync(RegisterProviderRequest request)
         {
             var response = await _httpClient.PostAsJsonAsync("api/provider/register", request);
@@ -82,6 +82,14 @@ namespace SystemQueueDigitalisation.Web.Services
             return response.IsSuccessStatusCode;
         }
 
-       
+        public async Task<List<ProviderRequest>> GetAllProviders()
+        {
+            var response = await _httpClient.GetAsync("api/provider/providers");
+            if (!response.IsSuccessStatusCode)
+            {
+                return new List<ProviderRequest>();
+            }
+            return await response.Content.ReadFromJsonAsync<List<ProviderRequest>>();
+        }
     }
 }

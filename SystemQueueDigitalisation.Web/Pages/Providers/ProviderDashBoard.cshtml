@@ -3,197 +3,298 @@
 @{
     ViewData["Title"] = "Dashboard Provider";
 }
-<!-- Header -->
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="display-6">👋 Welcome, @Model.ProviderEmail</h1>
-    <a href="/logout" class="btn btn-outline-secondary">Logout</a>
-</div>
 
-<!-- Error Message -->
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger">
-        @TempData["ErrorMessage"]
-    </div>
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
 
-<!-- Summary Cards -->
-@if (Model.TodayQueues != null && Model.TodayQueues.Any())
-{
-    <div class="row mb-4">
-        <div class="col-md-4">
-            <div class="card text-white bg-primary shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Total Queues</h5>
-                    <h2>@Model.TodayQueues.Count</h2>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7fb;
+            color: #333;
+        }
+
+        .header-section {
+            background: linear-gradient(135deg, #3f80d1, #88d8f7);
+            color: #fff;
+            padding: 30px 0;
+        }
+
+        .header-section h1 {
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .header-section .btn-outline-secondary {
+            border-color: #888;
+            color: #888;
+        }
+
+        .header-section .btn-outline-secondary:hover {
+            background-color: #888;
+            color: #fff;
+        }
+
+        .summary-cards .card {
+            border-radius: 12px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .summary-cards .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body h5 {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .card-body h2 {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+
+        .welcome-section {
+            background: linear-gradient(135deg, #3f80d1, #88d8f7);
+            padding: 60px 30px;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .btn-outline-success, .btn-outline-secondary, .btn-outline-danger {
+            border-radius: 50px;
+            padding: 8px 20px;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .btn-primary {
+            background-color: #3f80d1;
+            border-color: #3f80d1;
+        }
+
+        .badge-success {
+            background-color: #28a745;
+        }
+
+        .badge-warning {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+        .text-muted {
+            color: #6c757d !important;
+        }
+
+    </style>
+</head>
+<body>
+
+   
+    <div class="content-wrapper">
+
+        <div class="welcome-section mb-4">
+            <h2>Welcome, @Model.ProviderEmail</h2>
+            <p>Manage your appointments and stay updated with your client queue status right here!</p>
+
+        </div>
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger container mt-4">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+
+        @if (Model.TodayQueues != null && Model.TodayQueues.Any())
+        {
+            <div class="container mt-4 summary-cards">
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <div class="card text-white bg-primary shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Queues</h5>
+                                <h2>@Model.TodayQueues.Count</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-success shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">Served</h5>
+                                <h2>@Model.TodayQueues.Count(q => q.IsServed)</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card text-white bg-warning shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">Pending</h5>
+                                <h2>@Model.TodayQueues.Count(q => !q.IsServed)</h2>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card text-white bg-success shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Served</h5>
-                    <h2>@Model.TodayQueues.Count(q => q.IsServed)</h2>
-                </div>
+        }
+
+        <form method="get" class="container mb-4 d-flex align-items-end gap-2">
+            <div>
+                <label for="filterDate" class="form-label">📅 Filter by date:</label>
+                <input type="date" class="form-control" id="filterDate" name="FilterDate" value="@Model.FilterDate?.ToString("yyyy-MM-dd")" />
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card text-white bg-warning shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">Pending</h5>
-                    <h2>@Model.TodayQueues.Count(q => !q.IsServed)</h2>
-                </div>
-            </div>
-        </div>
-    </div>
-}
-
-<!-- Filter Form -->
-<form method="get" class="mb-4 d-flex align-items-end gap-2">
-    <div>
-        <label for="filterDate" class="form-label">📅 Filter by date:</label>
-        <input type="date" class="form-control" id="filterDate" name="FilterDate" value="@Model.FilterDate?.ToString("yyyy-MM-dd")" />
-    </div>
-    <button type="submit" class="btn btn-primary">Apply</button>
-</form>
-
-<!-- Queue Table -->
-@if (Model.TodayQueues != null && Model.TodayQueues.Any())
-{
-    <div class="table-responsive">
-        <table class="table table-hover">
-            <thead class="table-light">
-                <tr>
-                    <th>Queue #</th>
-                    <th>Client</th>
-                    <th>Service</th>
-                    <th>Time</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var q in Model.TodayQueues)
-                {
-                    <tr class="@(!q.IsServed ? "table-warning" : "table-success")">
-                        <td><strong>@q.QueueNumber</strong></td>
-                        <td>@q.ClientEmail</td>
-                        <td>@q.ServiceName</td>
-                        <td>@q.CreatedAt.ToString("HH:mm")</td>
-                        <td>
-                            @if (q.IsServed)
-                            {
-                                <span class="badge bg-success">Served</span>
-                            }
-                            else
-                            {
-                                <span class="badge bg-warning text-dark">Waiting</span>
-                            }
-                        </td>
-                        <td>
-                            @if (!q.IsServed)
-                            {
-                                <form method="post" asp-page-handler="ServeQueue" class="d-inline">
-                                    <input type="hidden" name="queueId" value="@q.QueueId" />
-                                    <button type="submit" class="btn btn-outline-success btn-sm">✅ Serve</button>
-                                </form>
-                            }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-
-    <!-- Export Buttons -->
-    <div class="d-flex justify-content-end gap-2 mt-4">
-        <form method="get" asp-page-handler="ExportCsv">
-            @if (Model.FilterDate.HasValue)
-            {
-                <input type="hidden" name="FilterDate" value="@Model.FilterDate?.ToString("yyyy-MM-dd")" />
-            }
-            <button type="submit" class="btn btn-outline-secondary">
-                🗂 Export CSV
-            </button>
+            <button type="submit" class="btn btn-primary">Apply</button>
         </form>
 
-        <form method="get" asp-page-handler="ExportPdf">
-            @if (Model.FilterDate.HasValue)
-            {
-                <input type="hidden" name="FilterDate" value="@Model.FilterDate?.ToString("yyyy-MM-dd")" />
-            }
-            <button type="submit" class="btn btn-outline-danger">
-                📄 Export PDF
-            </button>
-        </form>
+        @if (Model.TodayQueues != null && Model.TodayQueues.Any())
+        {
+            <div class="container table-responsive">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Queue #</th>
+                            <th>Client</th>
+                            <th>Service</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var q in Model.TodayQueues)
+                        {
+                            <tr class="@(!q.IsServed ? "table-warning" : "table-success")">
+                                <td><strong>@q.QueueNumber</strong></td>
+                                <td>@q.ClientEmail</td>
+                                <td>@q.ServiceName</td>
+                                <td>@q.CreatedAt.ToString("HH:mm")</td>
+                                <td>
+                                    @if (q.IsServed)
+                                    {
+                                        <span class="badge bg-success">Served</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning text-dark">Waiting</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (!q.IsServed)
+                                    {
+                                        <form method="post" asp-page-handler="ServeQueue" class="d-inline">
+                                            <input type="hidden" name="queueId" value="@q.QueueId" />
+                                            <button type="submit" class="btn btn-outline-success btn-sm">✅ Serve</button>
+                                        </form>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Export Buttons -->
+            <div class="d-flex justify-content-end gap-2 mt-4">
+                <form method="get" asp-page-handler="ExportCsv">
+                    @if (Model.FilterDate.HasValue)
+                    {
+                        <input type="hidden" name="FilterDate" value="@Model.FilterDate?.ToString("yyyy-MM-dd")" />
+                    }
+                    <button type="submit" class="btn btn-outline-secondary">
+                        🗂 Export CSV
+                    </button>
+                </form>
+
+                <form method="get" asp-page-handler="ExportPdf">
+                    @if (Model.FilterDate.HasValue)
+                    {
+                        <input type="hidden" name="FilterDate" value="@Model.FilterDate?.ToString("yyyy-MM-dd")" />
+                    }
+                    <button type="submit" class="btn btn-outline-danger">
+                        📄 Export PDF
+                    </button>
+                </form>
+            </div>
+        }
+        else
+        {
+            <!-- Empty State -->
+            <div class="text-center p-5">
+                <h3 class="text-muted">🚫 No queues for today</h3>
+                <p class="text-secondary">Try selecting another date or come back later.</p>
+            </div>
+        }
+
     </div>
-}
-else
-{
-    <!-- Empty State -->
-    <div class="text-center p-5">
-        <h3 class="text-muted">🚫 No queues for today</h3>
-        <p class="text-secondary">Try selecting another date or come back later.</p>
-    </div>
-}
-<!-- SignalR and Auto-Refresh -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
-<script>
-    const connection = new signalR.HubConnectionBuilder()
-        .withUrl("/queueHub")
-        .build();
 
-    connection.on("QueueUpdated", function (data) {
-        console.log("Queue updated:", data);
-        refreshTable();
-        playSound();
-    });
 
-    connection.on("NewQueue", function (data) {
-        console.log("New queue arrived:", data);
-        refreshTable();
-        playSound();
-    });
+    <!-- SignalR and Auto-Refresh -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/queueHub")
+            .build();
 
-    connection.start().catch(err => console.error(err.toString()));
+        connection.on("QueueUpdated", function (data) {
+            console.log("Queue updated:", data);
+            refreshTable();
+            playSound();
+        });
 
-    function playSound() {
-        @* const audio = new Audio('/sounds/queue-alert.mp3');
-        audio.play(); *@
+        connection.on("NewQueue", function (data) {
+            console.log("New queue arrived:", data);
+            refreshTable();
+            playSound();
+        });
 
-            function playSound() {
-        // Make sure this path is correct
-        const audio = new Audio('/sounds/queue-alert.mp3');
-        audio.play();
+        connection.start().catch(err => console.error(err.toString()));
 
-        // You could also flash the page title or show a toast notification
-        document.title = "🔔 New Queue! - Dashboard";
-        setTimeout(() => {
-            document.title = "Dashboard Provider";
-        }, 3000);
-    }
-    }
+        function playSound() {
+            const audio = new Audio('/sounds/queue-alert.mp3');
+            audio.play();
+            document.title = "🔔 New Queue! - Dashboard";
+            setTimeout(() => {
+                document.title = "Dashboard Provider";
+            }, 3000);
+        }
 
-    function refreshTable() {
-        fetch(window.location.href)
-            .then(response => response.text())
-            .then(html => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const newTableBody = doc.querySelector("table tbody");
-                const currentTable = document.querySelector("table tbody");
-                if (newTableBody && currentTable) {
-                    currentTable.innerHTML = newTableBody.innerHTML;
-                }
+        function refreshTable() {
+            fetch(window.location.href)
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const newTableBody = doc.querySelector("table tbody");
+                    const currentTable = document.querySelector("table tbody");
+                    if (newTableBody && currentTable) {
+                        currentTable.innerHTML = newTableBody.innerHTML;
+                    }
+                    const newCards = doc.querySelectorAll('.card-body h2');
+                    const currentCards = document.querySelectorAll('.card-body h2');
+                    if (newCards.length === currentCards.length) {
+                        newCards.forEach((el, idx) => {
+                            currentCards[idx].innerText = el.innerText;
+                        });
+                    }
+                });
+        }
+    </script>
 
-                // Optional: Update summary cards too
-                const newCards = doc.querySelectorAll('.card-body h2');
-                const currentCards = document.querySelectorAll('.card-body h2');
-                if (newCards.length === currentCards.length) {
-                    newCards.forEach((el, idx) => {
-                        currentCards[idx].innerText = el.innerText;
-                    });
-                }
-            });
-    }
-</script>
+</body>
+</html>

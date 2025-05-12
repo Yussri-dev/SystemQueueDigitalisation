@@ -9,6 +9,17 @@ var builder = WebApplication.CreateBuilder(args);
 var baseAddress = new Uri("http://localhost:5107/");
 
 
+//Adding Cors
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("AllowOrigins", builder =>
+    {
+        builder.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+    });
+});
+
 // Configuration de la session
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDistributedMemoryCache();
@@ -27,6 +38,7 @@ AddHttpClientWithBaseAddress<ClientService>(builder, baseAddress);
 AddHttpClientWithBaseAddress<QueueService>(builder, baseAddress);
 AddHttpClientWithBaseAddress<ServiceService>(builder, baseAddress);
 AddHttpClientWithBaseAddress<AdminService>(builder, baseAddress);
+AddHttpClientWithBaseAddress<AuthService>(builder, baseAddress);
 
 builder.Services.AddScoped<ISessionService, SessionService>();
 
@@ -49,6 +61,7 @@ builder.Services.AddSession(options =>
 
 var app = builder.Build();
 
+app.UseCors("AllowOrigins");
 //mapping Notifications Hub
 app.MapHub<NotificationHub>("/hubs/notifications");
 app.MapHub<QueueHub>("/queueHub");

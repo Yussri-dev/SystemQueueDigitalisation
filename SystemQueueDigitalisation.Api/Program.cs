@@ -25,6 +25,16 @@ Console.WriteLine($"Looking for appsettings.json at: {appSettingsPath}");
 Console.WriteLine($"File exists: {File.Exists(appSettingsPath)}");
 Console.WriteLine($"Current environment: {builder.Environment.EnvironmentName}");
 
+//Adding Cors
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("AllowOrigins", builder =>
+    {
+        builder.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+    });
+});
 // Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -113,6 +123,7 @@ builder.Services.AddScoped<IAdminService, AdminService>();
 
 var app = builder.Build();
 
+app.UseCors("AllowOrigins");
 //app.MapHub<QueueHub>("/queueHub");
 
 // Configure the HTTP request pipeline.

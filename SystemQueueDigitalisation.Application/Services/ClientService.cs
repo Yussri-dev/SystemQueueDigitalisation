@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SystemQueueDigitalisation.Application.Interfaces.Services;
 using SystemQueueDigitalisation.Application.Interfaces;
 using SystemQueueDigitalisation.Domain.Entities;
+using SystemQueueDigitalisation.Domain.Dtos;
 using SystemQueueDigitalisation.Application.Helpers;
 
 namespace SystemQueueDigitalisation.Application.Services
@@ -44,7 +45,7 @@ namespace SystemQueueDigitalisation.Application.Services
                 BirthDate = birthDate,
                 Email = email,
                 PasswordHash = PasswordHelper.HashPassword(password),
-                Age = age
+                //Age = age
             };
 
             await _clientRepository.AddAsync(client);
@@ -64,7 +65,28 @@ namespace SystemQueueDigitalisation.Application.Services
             return client.Id;
         }
 
+        public async Task<bool> UpdateClientAsync(ClientDto updatedClient)
+        {
+            var existingClient = await _clientRepository.GetByIdAsync(updatedClient.Id);
+            if (existingClient == null)
+                return false;
 
+            
+            existingClient.FirstName = updatedClient.FirstName;
+            existingClient.LastName = updatedClient.LastName;
+            existingClient.ContactInfo = updatedClient.ContactInfo;
+            existingClient.Adress = updatedClient.Adress;
+            existingClient.City = updatedClient.City;
+            existingClient.PostCode = updatedClient.PostCode;
+            existingClient.AdressNumber = updatedClient.AdressNumber;
+            existingClient.BoxNumber = updatedClient.BoxNumber;
+            existingClient.BirthDate = updatedClient.BirthDate;
+            existingClient.Email = updatedClient.Email;
+            //existingClient.Age = updatedClient.Age;
+
+            await _clientRepository.UpdateAsync(existingClient);
+            return true;
+        }
 
     }
 }

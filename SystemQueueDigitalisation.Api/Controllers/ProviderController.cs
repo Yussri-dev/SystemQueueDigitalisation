@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SystemQueueDigitalisation.Api.RequestModel;
+using SystemQueueDigitalisation.Api.RequestModel.ProviderRequests;
 using SystemQueueDigitalisation.Application.Interfaces.Services;
 using SystemQueueDigitalisation.Domain.Entities;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -31,7 +32,10 @@ namespace SystemQueueDigitalisation.Api.Controllers
             var provider = await _providerService.AuthenticateProviderAsync(request.Email, request.Password);
 
             if (provider == null)
-                return Unauthorized(new { Message = "Invalid credentials." });
+                return Unauthorized(new
+                {
+                    Message = "Invalid credentials."
+                });
 
             if (!provider.IsPaymentConfirmed)
             {
@@ -44,7 +48,6 @@ namespace SystemQueueDigitalisation.Api.Controllers
         public async Task<ActionResult<List<QueueInfoRequest>>> GetTodayQueues(int providerId)
         {
             var queues = await _providerService.GetTodayQueueAsync(providerId);
-            Console.WriteLine($"API returning {queues.Count} queues for provider {providerId}");
             return Ok(queues);
         }
 
@@ -69,6 +72,12 @@ namespace SystemQueueDigitalisation.Api.Controllers
             return Ok(services);
         }
 
+        [HttpGet("providers")]
+        public async Task<ActionResult<List<ProviderRequest>>> GetAllProviders()
+        {
+            var providers = await _providerService.GetAllProviders();
+            return Ok(providers);
+        }
 
     }
 }

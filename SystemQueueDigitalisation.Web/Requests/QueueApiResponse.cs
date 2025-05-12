@@ -2,6 +2,7 @@
 {
     public class QueueApiResponse
     {
-        public QueueInfoRequest QueueNumber { get; set; }
+        public string Message { get; set; }
+        public QueueInfoRequest Queue { get; set; }
     }
 }
